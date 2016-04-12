@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+
+  web:
+    container_name: web
+    image: nginx
+    ports:
+      - 80:80
+    links:
+      - "php"
+    volumes:
+      - ./docker/config/nginx.conf:/etc/nginx/nginx.conf:ro
+  php:
+    container_name: php
+    image: diegogullo/php_docker_56:with-mbstring
+    environment:
+      - APP_ENV=local # to be changed with env variable soon
+      - APP_DEBUG=true
+    volumes:
+      - .:/project
+      - ./docker/config/php.ini:/usr/local/etc/php/php.ini
